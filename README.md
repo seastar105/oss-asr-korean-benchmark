@@ -8,7 +8,7 @@
 
 NOTE: 테스트 음성들이 모두 30초 이하의 짧은 음성이기 때문에 이 결과가 long-form 음성에 대한 결과로 이어지진 않습니다.
 
-|                  Model                  |  **Average**  |  Common Voice 15.0  |  FLEURS  |  Callcenter  |  Conference  |  Callcenter-Counseling  |  Lecture  |  KsponSpeech Eval Clean  |  KsponSpeech Eval Other  |  RTF   |
+|                  Model                  |  **Average**  |  CV 15  |  FLEURS  |  Callcenter  |  Conference  |  Callcenter2  |  Lecture  |  Kspon clean |  Kspon other  |  RTF   |
 |-----------------------------------------|-----------|---------------------|----------|--------------|--------------|-------------------------|-----------|--------------------------|--------------------------|--------|
 | mistralai/Voxtral-Mini-4B-Realtime-2602 |    22.95% |              11.23% |    5.25% |       45.91% |       19.62% |                  18.41% |    19.53% |                   36.42% |                   27.27% | 0.7647 |
 |                   openai/whisper-medium |    18.57% |               8.20% |    5.18% |       32.53% |       24.03% |                  19.28% |    15.09% |                   23.69% |                   20.52% | 0.3233 |
@@ -193,10 +193,10 @@ NIC Legend:
 
 AI Hub 공개 데이터들에 대해서는 철자 전사를 reference로 사용하였으며, 테스트셋은 [이곳](https://github.com/rtzr/Awesome-Korean-Speech-Recognition)에 정의된 샘플들을 사용했습니다.
 
-- Common Voice 15.0: [Common Voice](https://commonvoice.mozilla.org/ko)의 한국어 테스트 셋
+- CV 15: [Common Voice](https://commonvoice.mozilla.org/ko)의 한국어 테스트 셋
 - FLEURS: [FLEURS](https://huggingface.co/datasets/google/fleurs)의 한국어 테스트셋
 - Callcenter: [저음질 전화망 음성인식 데이터](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=571)의 Validation set 중 3000개 샘플 사용. 목록은 [이곳](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_TELEPHONE_LOW_QUALITY_test.txt) 참조.
-- Callcenter-Counseling: [상담 음성](https://www.aihub.or.kr/aihubdata/data/view.do?&dataSetSn=100)의 Validation set 중 3000개 샘플 사용. 다양한 상담 음성 시나리오를 전화 품질로 녹음한 음성입니다. 목록은 [이곳](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_COUNSELING_test.txt) 참조. 
+- Callcenter2: [상담 음성](https://www.aihub.or.kr/aihubdata/data/view.do?&dataSetSn=100)의 Validation set 중 3000개 샘플 사용. 다양한 상담 음성 시나리오를 전화 품질로 녹음한 음성입니다. 목록은 [이곳](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_COUNSELING_test.txt) 참조. 
 - Conference: [회의 음성](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=132)의 Validation set 중 3000개 샘플 사용. EBS 방송 중 토크, 토론, 뉴스 등의 음성에서 발췌한 음성입니다. 목록은 [이곳](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_CONFERENCE_CALL_test.txt) 참조
 - Lecture: [한국어 강의](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_KOREAN_LECTURE_test.txt)의 Validation set 중 3000개 샘플 사용. EBS 교육방송에서 발췌한 음성입니다. 목록은 [이곳](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_KOREAN_LECTURE_test.txt) 참조
-- KsponSpeech: [한국어 음성](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=123) 테스트 셋인 Eval-Clean과 Eval-Other입니다.
+- Kspon-{clean,other}: [한국어 음성](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=123) 테스트 셋인 Eval-Clean과 Eval-Other입니다.
