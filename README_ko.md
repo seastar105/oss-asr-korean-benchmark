@@ -1,12 +1,12 @@
 # Korean OSS ASR Benchmark
 
-As of March 2026, several speech recognition models officially support Korean. However, from a user’s perspective, the most important question is still: `Is it better than Whisper?`
+2026년 3월 기준으로, 한국어를 공식적으로 지원하는 여러 음성인식 모델들이 출시되었습니다만, 사용하는 입장에서 제일 궁금한 질문은 `whisper보다 좋은가?`입니다.
 
-The problem is that most companies either report results only on datasets such as Common Voice or FLEURS, or do not report Korean performance at all. To make comparison easier, I ran my own evaluation using publicly available AI Hub datasets.
+다만, 공개하는 회사에서는 Common Voice, FLEURS 정도의 테스트셋에 대해서만 결과를 쓰거나, 아예 한국어 성능은 빠져있다보니 알기 어려워서 AI Hub에 공개된 데이터셋을 사용해서 테스트를 수행한 결과입니다.
 
-## Results (CER, RTF)
+## 테스트 결과 (CER, RTF)
 
-NOTE: Since all test utterances are short (30 seconds or less), these results should not be interpreted as long-form ASR performance.
+NOTE: 테스트 음성들이 모두 30초 이하의 짧은 음성이기 때문에 이 결과가 long-form 음성에 대한 결과로 이어지진 않습니다.
 
 |                  Model                  |  **Average**  |  CV 15  |  FLEURS  |  Callcenter  |  Conference  |  Callcenter2  |  Lecture  |  Kspon clean |  Kspon other  |  RTF   |
 |-----------------------------------------|-----------|---------------------|----------|--------------|--------------|-------------------------|-----------|--------------------------|--------------------------|--------|
@@ -19,21 +19,21 @@ NOTE: Since all test utterances are short (30 seconds or less), these results sh
 |                 openai/whisper-large-v3 |     9.00% |               6.40% |    4.51% |        6.04% |       10.56% |                   4.62% |     9.06% |                   15.88% |                   14.94% |  0.298 |
 |       seastar105/whisper-medium-komixv2 |     7.92% |               6.66% |    5.17% |        6.45% |       10.23% |                   6.35% |     8.93% |                    9.82% |                    9.79% | 0.2484 |
 
-`whisper-large-v3` still delivers the best average performance overall, and the gap is especially large on the `Callcenter` dataset.
+whisper-large-v3이 여전히 평균 성능이 제일 좋으며, 특히 `Callcenter`에서 큰 차이가 납니다.
 
-`whisper-medium-komixv2` is a Korean fine-tuned model, and it shows that fine-tuning is still highly effective when applying ASR models to a specific domain.
+whisper-medium-komixv2의 경우 한국어 파인튜닝을 수행한 모델로, 음성인식 모델을 특정 도메인에 적용하고자 할 경우 여전히 파인튜닝이 굉장히 유효하다는걸 보여줍니다. 
 
-This effect is particularly large on `Callcenter`, whose speech domain differs significantly from the others, and on `KsponSpeech`, whose text domain is also quite different. This suggests that, from an operational cost perspective, it may be more efficient to take a lower-RTF model and fine-tune it on domain-specific data.
+특히, 음성 도메인이 다른 도메인과 다른 `Callcenter`, 텍스트 도메인이 다른 도메인과 다른 `KsponSpeech`에서 효과가 크기 때문에 운용 코스트는 RTF가 낮은 모델에 도메인 데이터로 파인튜닝을 하는 것이 낮을 것 같습니다.
 
-## Environment
+## 실행환경
 
-All evaluations were conducted by serving each model with vLLM (`vllm serve <model-name>`) and then sending requests from 32 threads to collect ASR outputs. Please refer to [run_asr.py](./run_asr.py) and [run_asr_stream.py](./run_asr_stream.py).
+모든 평가는 vllm을 사용하여 서버를 실행(`vllm serve <model-name>`)한 뒤 32개 스레드로 리퀘스트를 보내 음성인식 결과를 얻는 형식으로 수행되었으며, [run_asr.py](./run_asr.py)와 [run_asr_stream.py](./run_asr_stream.py)를 참조해주세요.
 
-The evaluation server specifications are shown below.
+실행 서버스펙은 아래와 같습니다.
 
 <details>
 
-<summary>Environment</summary>
+<summary>실행환경</summary>
 
 ```text
 ==============================
@@ -189,13 +189,14 @@ NIC Legend:
 ```
 </details>
 
-## Test Set Description
+## 테스트셋 소개
 
-For publicly available AI Hub datasets, orthographic transcriptions were used as references. The test subsets follow the sample definitions from here
-- CV 15: Korean test set of [Common Voice](https://commonvoice.mozilla.org/ko)
-- FLEURS: Korean test set of [FLEURS](https://huggingface.co/datasets/google/fleurs)
-- Callcenter: 3,000 samples from the validation split of [Low-Quality Telephone Speech Recognition Data]((https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=571)). The sample list is available [here](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_TELEPHONE_LOW_QUALITY_test.txt)
-- Callcenter2: 3,000 samples from the validation split of [Counseling Speech](https://www.aihub.or.kr/aihubdata/data/view.do?&dataSetSn=100). This dataset contains telephone-quality recordings from a variety of counseling scenarios. The sample list is available [here](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_COUNSELING_test.txt)
-- Conference: 3,000 samples from the validation split of [Conference Speech](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=132). The audio is excerpted from EBS broadcasts such as talk shows, debates, and news. The sample list is available [here](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_CONFERENCE_CALL_test.txt) 
-- Lecture: 3,000 samples from the validation split of [Korean Lecture](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_KOREAN_LECTURE_test.txt). The audio is excerpted from EBS educational broadcasts. The sample list is available [here](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_KOREAN_LECTURE_test.txt)
-- Kspon-{clean,other}: Eval-Clean and Eval-Other subset from [Korean Speech]()
+AI Hub 공개 데이터들에 대해서는 철자 전사를 reference로 사용하였으며, 테스트셋은 [이곳](https://github.com/rtzr/Awesome-Korean-Speech-Recognition)에 정의된 샘플들을 사용했습니다.
+
+- CV 15: [Common Voice](https://commonvoice.mozilla.org/ko)의 한국어 테스트 셋
+- FLEURS: [FLEURS](https://huggingface.co/datasets/google/fleurs)의 한국어 테스트셋
+- Callcenter: [저음질 전화망 음성인식 데이터](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=571)의 Validation set 중 3000개 샘플 사용. 목록은 [이곳](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_TELEPHONE_LOW_QUALITY_test.txt) 참조.
+- Callcenter2: [상담 음성](https://www.aihub.or.kr/aihubdata/data/view.do?&dataSetSn=100)의 Validation set 중 3000개 샘플 사용. 다양한 상담 음성 시나리오를 전화 품질로 녹음한 음성입니다. 목록은 [이곳](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_COUNSELING_test.txt) 참조. 
+- Conference: [회의 음성](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=132)의 Validation set 중 3000개 샘플 사용. EBS 방송 중 토크, 토론, 뉴스 등의 음성에서 발췌한 음성입니다. 목록은 [이곳](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_CONFERENCE_CALL_test.txt) 참조
+- Lecture: [한국어 강의](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_KOREAN_LECTURE_test.txt)의 Validation set 중 3000개 샘플 사용. EBS 교육방송에서 발췌한 음성입니다. 목록은 [이곳](https://github.com/rtzr/Awesome-Korean-Speech-Recognition/blob/main/docs/AIHUB_KOREAN_LECTURE_test.txt) 참조
+- Kspon-{clean,other}: [한국어 음성](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=123) 테스트 셋인 Eval-Clean과 Eval-Other입니다.
