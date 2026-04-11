@@ -4,20 +4,32 @@ As of March 2026, several speech recognition models officially support Korean. H
 
 The problem is that most companies either report results only on datasets such as Common Voice or FLEURS, or do not report Korean performance at all. To make comparison easier, I ran my own evaluation using publicly available AI Hub datasets.
 
+## Update
+
+2026.04.11: Add FunAudioLLM/SenseVoiceSmall, and RaonSpeech/Raon-Speech-9B. Change text normalization method.
+
 ## Results (CER, RTF)
 
-NOTE: Since all test utterances are short (30 seconds or less), these results should not be interpreted as long-form ASR performance.
+**NOTE: Since all test utterances are short (30 seconds or less), these results should not be interpreted as long-form ASR performance.**
 
-|                  Model                  |  **Average**  |  CV 15  |  FLEURS  |  Callcenter  |  Conference  |  Callcenter2  |  Lecture  |  Kspon clean |  Kspon other  |  RTF   |
+|                  Model                  |  **Average**  |  CV 15 |  FLEURS  |  Callcenter  |  Conference  |  Callcenter2 |  Lecture  |  Kspon Clean  |  Kspon Other  |  RTF   |
 |-----------------------------------------|-----------|---------------------|----------|--------------|--------------|-------------------------|-----------|--------------------------|--------------------------|--------|
-| mistralai/Voxtral-Mini-4B-Realtime-2602 |    22.95% |              11.23% |    5.25% |       45.91% |       19.62% |                  18.41% |    19.53% |                   36.42% |                   27.27% | 0.7647 |
-|                   openai/whisper-medium |    18.57% |               8.20% |    5.18% |       32.53% |       24.03% |                  19.28% |    15.09% |                   23.69% |                   20.52% | 0.3233 |
-|                     Qwen/Qwen3-ASR-0.6B |    18.48% |               8.50% |    4.94% |       59.36% |       14.85% |                  11.48% |    14.34% |                   18.82% |                   15.57% | 0.1931 |
-|    CohereLabs/cohere-transcribe-03-2026 |    16.94% |               6.32% |    5.23% |       28.30% |       17.71% |                  10.30% |    17.32% |                   28.61% |                   21.74% | 0.2458 |
-|                     Qwen/Qwen3-ASR-1.7B |    11.12% |               6.10% |    3.77% |       16.53% |       12.82% |                   8.87% |    11.69% |                   16.20% |                   13.02% |  0.191 |
-|           openai/whisper-large-v3-turbo |    10.93% |               5.84% |    4.66% |       13.06% |       11.35% |                   5.09% |    10.85% |                   20.68% |                   15.93% | 0.2302 |
-|                 openai/whisper-large-v3 |     9.00% |               6.40% |    4.51% |        6.04% |       10.56% |                   4.62% |     9.06% |                   15.88% |                   14.94% |  0.298 |
-|       seastar105/whisper-medium-komixv2 |     7.92% |               6.66% |    5.17% |        6.45% |       10.23% |                   6.35% |     8.93% |                    9.82% |                    9.79% | 0.2484 |
+| mistralai/Voxtral-Mini-4B-Realtime-2602 |    22.25% |              10.61% |    4.50% |       46.12% |       18.63% |                  17.17% |    18.60% |                   36.04% |                   26.29% | 0.7647 |
+|                     Qwen/Qwen3-ASR-0.6B |    17.29% |               8.30% |    4.26% |       59.62% |       13.78% |                   8.49% |    12.79% |                   17.62% |                   13.47% | 0.1936 |
+|                   openai/whisper-medium |    16.53% |               7.90% |    4.37% |       30.53% |       21.78% |                  15.18% |    14.20% |                   20.29% |                   18.03% | 0.3233 |
+|    CohereLabs/cohere-transcribe-03-2026 |    15.97% |               6.21% |    4.91% |       27.64% |       16.32% |                   8.69% |    16.24% |                   27.50% |                   20.27% | 0.2458 |
+|             FunAudioLLM/SenseVoiceSmall |    12.72% |               7.81% |    5.70% |       19.92% |       16.23% |                   9.36% |    13.90% |                   14.79% |                   14.04% | 0.003* |
+|                     Qwen/Qwen3-ASR-1.7B |     9.78% |               5.73% |    2.96% |       15.87% |       11.56% |                   6.37% |    10.00% |                   14.96% |                   10.82% |  0.191 |
+|           openai/whisper-large-v3-turbo |     9.36% |               5.48% |    3.22% |       10.00% |       10.14% |                   4.17% |     9.59% |                   17.96% |                   14.31% | 0.2302 |
+|                 openai/whisper-large-v3 |     7.83% |               5.83% |    3.01% |        5.34% |        9.41% |                   3.74% |     8.07% |                   14.16% |                   13.08% |  0.298 |
+|       seastar105/whisper-medium-komixv2 |     7.05% |               6.44% |    4.34% |        5.78% |        9.33% |                   4.90% |     8.37% |                    8.91% |                    8.31% | 0.2484 |
+|               RaonSpeech/Raon-Speech-9B |     6.44% |               4.43% |    *2.89% |        5.72% |        8.98% |                   3.48% |     8.27% |                    *8.66% |                    *9.10% | 0.7184 |
+
+RTX Pro 6000 Blackwell was used for Raon-Speech's server, since i could not run server on rtx 5090 machine.
+
+RTF for sensevoice was measured in batched inference.
+
+**NOTE: CER values for FLEURS, Ksponspeech are different from their technical report. This difference may come from different reference text.**
 
 `whisper-large-v3` still delivers the best average performance overall, and the gap is especially large on the `Callcenter` dataset.
 
